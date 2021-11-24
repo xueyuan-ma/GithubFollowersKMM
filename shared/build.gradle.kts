@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin("multiplatform")
+    kotlin("plugin.serialization") version "1.5.31"
     id("com.android.library")
     id("com.squareup.sqldelight")
 }
@@ -28,6 +29,7 @@ kotlin {
                 implementation("com.squareup.sqldelight:runtime:1.5.2")
                 implementation("io.ktor:ktor-client-core:1.6.5")
                 implementation("io.ktor:ktor-client-serialization:1.6.5")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
             }
         }
         val commonTest by getting {

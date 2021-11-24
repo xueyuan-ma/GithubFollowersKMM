@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import shared
 
 class FavoriteCell: UITableViewCell {
     static let reuseID = "FavoriteCell"

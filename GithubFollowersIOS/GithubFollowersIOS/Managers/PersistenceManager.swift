@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import shared
 
 enum PersistenceActionType {
     case add, remove
@@ -52,7 +53,8 @@ enum PersistenceManager {
         
         do {
             let decoder = JSONDecoder()
-            let favorites = try decoder.decode([Follower].self, from: favoritesData)
+            //let favorites = try decoder.decode([Follower].self, from: favoritesData)
+			let favorites = [Follower]()
             completed(.success(favorites))
         } catch {
             completed(.failure(.unableToFavorite))
@@ -62,7 +64,8 @@ enum PersistenceManager {
     static func save(favorites: [Follower]) -> GFError? {
         do {
             let encoder = JSONEncoder()
-            let encodedFavorites = try encoder.encode(favorites)
+            //let encodedFavorites = try encoder.encode(favorites)
+			let encodedFavorites = try encoder.encode("Fuck")
             defaults.set(encodedFavorites, forKey: Keys.favorites)
         } catch {
             return .unableToFavorite

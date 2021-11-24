@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import shared
 
 class FollowerListVC: GFDataLoadingVC {
     enum Section {
@@ -72,35 +73,40 @@ class FollowerListVC: GFDataLoadingVC {
         searchController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
     }
-    
-    func getFollowers(username: String, page: Int) {
-        showLoadingView()
-        isLoadingMoreUser = true
-        NetworkManager.shared.getFollowers(for: username, page: page) { [unowned self] result in
-            self.dismissLoadingView()
-            switch result {
-            case .success(let followers):
-                if followers.count < 100 {
-                    self.hasMoreFollowers = false
-                }
-                self.followers.append(contentsOf: followers)
-                
-                if self.followers.isEmpty {
-                    let message = "This user doesn't have any followers. Go follow them 😀."
-                    DispatchQueue.main.async {
-                        self.showEmptyStateView(with: message, in: self.view)
-                        return
-                    }
-                }
-                
-                self.updateData(on: self.followers)
-            case .failure(let error):
-                self.presentGFAlertOnMainThread(title: "Bad Stuff Happened", message: error.rawValue, buttonTitle: "OK")
-            }
-            
-            self.isLoadingMoreUser = false
-        }
-    }
+
+	func getFollowers(username: String, page: Int) {
+		showLoadingView()
+		isLoadingMoreUser = true
+
+		Manager.networkManager.getFollowers(username: username, page: Int32(page)) { [unowned self] followers, error in
+			self.dismissLoadingView()
+
+			if let error = error {
+				self.presentGFAlertOnMainThread(title: "Bad Stuff Happened", message: error.localizedDescription, buttonTitle: "OK")
+				self.isLoadingMoreUser = false
+				return
+			}
+
+			if let followers = followers {
+				if followers.count < 100 {
+					self.hasMoreFollowers = false
+				}
+				self.followers.append(contentsOf: followers)
+
+				if self.followers.isEmpty {
+					let message = "This user doesn't have any followers. Go follow them 😀."
+					DispatchQueue.main.async {
+						self.showEmptyStateView(with: message, in: self.view)
+						return
+					}
+				}
+
+				self.updateData(on: self.followers)
+			}
+
+			self.isLoadingMoreUser = false
+		}
+	}
     
     func configureDataSource() {
         dataSource = UICollectionViewDiffableDataSource<Section, Follower>(collectionView: collectionView, cellProvider: { (collectionView, indexPath, follower) -> UICollectionViewCell? in

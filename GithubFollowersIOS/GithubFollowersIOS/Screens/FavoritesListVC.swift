@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import shared
 
 class FavoritesListVC: GFDataLoadingVC {
     let tableView = UITableView()
