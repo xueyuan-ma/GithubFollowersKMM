@@ -2,9 +2,11 @@ package com.example.githubfollowerskmm.managers
 
 import com.example.githubfollowerskmm.models.Follower
 import io.ktor.client.*
+import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
+import kotlinx.coroutines.CancellationException
 
 class KTNetworkManager {
     private val client = HttpClient() {
@@ -13,6 +15,12 @@ class KTNetworkManager {
                 ignoreUnknownKeys = true
             }
             serializer = KotlinxSerializer(format)
+        }
+
+        HttpResponseValidator {
+            handleResponseException { exception ->
+                throw CancellationException(exception.message, exception.cause)
+            }
         }
     }
 
