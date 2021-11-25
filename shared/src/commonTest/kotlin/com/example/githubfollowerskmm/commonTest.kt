@@ -10,10 +10,4 @@ class CommonGreetingTest {
     fun testExample() {
         assertTrue(Greeting().greeting().contains("Hello"), "Check 'Hello' is mentioned")
     }
-
-    @Test
-    fun testGetFollowers() {
-        val ktNetworkManager = KTNetworkManager()
-        val followers = ktNetworkManager.getFollowers("machinemxy", 1)
-    }
 }

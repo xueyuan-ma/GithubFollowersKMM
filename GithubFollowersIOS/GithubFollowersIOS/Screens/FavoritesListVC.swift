@@ -41,23 +41,14 @@ class FavoritesListVC: GFDataLoadingVC {
     }
     
     func getFavorites() {
-        PersistenceManager.retrieveFavorites { [unowned self] result in
-            switch result {
-            case .success(let favorites):
-                if favorites.isEmpty {
-                    self.showEmptyStateView(with: "No Favorites?\nAdd one on the follower screen.", in: self.view)
-                } else {
-                    self.favorites = favorites
-                    DispatchQueue.main.async {
-                        self.tableView.reloadData()
-                        self.view.bringSubviewToFront(self.tableView)
-                    }
-                }
-                
-            case .failure(let error):
-                self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "OK")
-            }
-        }
+		let favorites = Manager.persistenceManager.retrieveFavorites()
+		if favorites.isEmpty {
+			showEmptyStateView(with: "No Favorites?\nAdd one on the follower screen.", in: self.view)
+		} else {
+			self.favorites = favorites
+			tableView.reloadData()
+			view.bringSubviewToFront(self.tableView)
+		}
     }
 }
 
@@ -82,15 +73,9 @@ extension FavoritesListVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
-        
-        PersistenceManager.updateWith(favorite: favorites[indexPath.row], actionType: .remove) { [unowned self] error in
-            guard let error = error else {
-                self.favorites.remove(at: indexPath.row)
-                tableView.deleteRows(at: [indexPath], with: .left)
-                return
-            }
-            
-            self.presentGFAlertOnMainThread(title: "Unable to remove", message: error.rawValue, buttonTitle: "OK")
-        }
+
+		Manager.persistenceManager.deleteFavorite(follower: favorites[indexPath.row])
+		favorites.remove(at: indexPath.row)
+		tableView.deleteRows(at: [indexPath], with: .left)
     }
 }

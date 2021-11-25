@@ -11,6 +11,7 @@ import shared
 
 final class Manager {
 	static let networkManager = KTNetworkManager()
+	static let persistenceManager = KTPersistenceManager(databaseDriverFactory: DatabaseDriverFactory())
 
 	private init() { }
 }
