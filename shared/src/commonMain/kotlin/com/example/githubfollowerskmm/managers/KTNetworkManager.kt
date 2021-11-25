@@ -1,20 +1,23 @@
 package com.example.githubfollowerskmm.managers
 
 import com.example.githubfollowerskmm.models.Follower
+import com.example.githubfollowerskmm.models.User
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.features.*
 import io.ktor.client.request.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
+import io.ktor.client.statement.*
 import kotlinx.coroutines.CancellationException
 
 class KTNetworkManager {
     private val client = HttpClient() {
         install(JsonFeature) {
-            val format = kotlinx.serialization.json.Json {
+            serializer = KotlinxSerializer(kotlinx.serialization.json.Json {
                 ignoreUnknownKeys = true
-            }
-            serializer = KotlinxSerializer(format)
+                coerceInputValues = true
+            })
         }
 
         HttpResponseValidator {
@@ -31,5 +34,9 @@ class KTNetworkManager {
             parameter("per_page", 100)
             parameter("page", page)
         }
+    }
+
+    suspend fun getUserInfo(username: String): User {
+        return client.get("$baseUrl$username")
     }
 }

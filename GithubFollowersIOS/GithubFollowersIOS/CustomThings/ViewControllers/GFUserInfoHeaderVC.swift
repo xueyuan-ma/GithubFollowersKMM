@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import shared
 
 class GFUserInfoHeaderVC: UIViewController {
     let avatarImageView = GFAvatarImageView(frame: .zero)

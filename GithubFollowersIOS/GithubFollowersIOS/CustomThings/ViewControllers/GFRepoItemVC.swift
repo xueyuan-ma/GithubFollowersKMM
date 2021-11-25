@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import shared
 
 protocol RepoItemVCDelegate: AnyObject {
     func didTapGitHubProfile(for user: User)
@@ -21,8 +22,8 @@ class GFRepoItemVC: GFItemInfoVC {
     }
     
     private func configureItems() {
-        itemInfoViewOne.set(itemInfoType: .repos, with: user.publicRepos)
-        itemInfoViewTwo.set(itemInfoType: .gists, with: user.publicGists)
+        itemInfoViewOne.set(itemInfoType: .repos, with: Int(user.publicRepos))
+        itemInfoViewTwo.set(itemInfoType: .gists, with: Int(user.publicGists))
         actionButton.set(backgroundColor: .systemPurple, title: "GitHub Profile")
     }
     

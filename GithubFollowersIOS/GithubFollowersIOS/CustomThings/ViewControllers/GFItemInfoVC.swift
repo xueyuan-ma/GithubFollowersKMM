@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import shared
 
 class GFItemInfoVC: UIViewController {
     let stackView = UIStackView()

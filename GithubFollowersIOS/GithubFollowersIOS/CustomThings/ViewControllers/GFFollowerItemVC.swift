@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import shared
 
 protocol FollowerItemVCDelegate: AnyObject {
     func didTapGetFollowers(for user: User)
@@ -21,8 +22,8 @@ weak var delegate: FollowerItemVCDelegate!
     }
     
     private func configureItems() {
-        itemInfoViewOne.set(itemInfoType: .followers, with: user.followers)
-        itemInfoViewTwo.set(itemInfoType: .following, with: user.following)
+        itemInfoViewOne.set(itemInfoType: .followers, with: Int(user.followers))
+        itemInfoViewTwo.set(itemInfoType: .following, with: Int(user.following))
         actionButton.set(backgroundColor: .systemGreen, title: "Get Followers")
     }
 

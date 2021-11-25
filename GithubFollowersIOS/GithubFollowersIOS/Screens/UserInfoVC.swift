@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import shared
 
 protocol UserInfoVCDelegate: AnyObject {
     func didRequestFollowers(for username: String)
@@ -51,16 +52,18 @@ class UserInfoVC: GFDataLoadingVC {
     }
     
     func getUserInfo() {
-        NetworkManager.shared.getUserInfo(for: username) { [unowned self] result in
-            switch result {
-            case .success(let user):
-                DispatchQueue.main.async {
-                    self.configureUIElement(with: user)
-                }
-            case .failure(let error):
-                self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.rawValue, buttonTitle: "Ok")
-            }
-        }
+		Manager.networkManager.getUserInfo(username: username) { [unowned self] user, error in
+			if let error = error {
+				self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.localizedDescription, buttonTitle: "Ok")
+				return
+			}
+
+			if let user = user {
+				DispatchQueue.main.async {
+					self.configureUIElement(with: user)
+				}
+			}
+		}
     }
     
     func configureUIElement(with user: User) {
@@ -73,7 +76,7 @@ class UserInfoVC: GFDataLoadingVC {
         self.add(childVC: GFUserInfoHeaderVC(user: user), to: self.headerView)
         self.add(childVC: repoItemVC, to: self.itemViewOne)
         self.add(childVC: followerItemVC, to: self.itemViewTwo)
-        self.dateLabel.text = "GitHub Since \(user.createdAt.convertToMonthYearFormat())"
+		self.dateLabel.text = "GitHub Since \(user.createdAt.convertToDisplayFormat())"
     }
     
     func layoutUI() {
