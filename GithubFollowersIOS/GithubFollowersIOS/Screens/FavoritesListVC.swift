@@ -74,7 +74,7 @@ extension FavoritesListVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         guard editingStyle == .delete else { return }
 
-		Manager.persistenceManager.deleteFavorite(follower: favorites[indexPath.row])
+		try? Manager.persistenceManager.deleteFavorite(follower: favorites[indexPath.row])
 		favorites.remove(at: indexPath.row)
 		tableView.deleteRows(at: [indexPath], with: .left)
     }

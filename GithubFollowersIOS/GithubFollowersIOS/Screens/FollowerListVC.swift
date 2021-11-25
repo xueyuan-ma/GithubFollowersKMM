@@ -138,8 +138,12 @@ class FollowerListVC: GFDataLoadingVC {
 
 			if let user = user {
 				let favorite = Follower(login: user.login, avatarUrl: user.avatarUrl)
-				Manager.persistenceManager.insertFavorite(follower: favorite)
-				self.presentGFAlertOnMainThread(title: "Success!", message: "You have successfully favorited this user.", buttonTitle: "Hooray!")
+				do {
+					try Manager.persistenceManager.insertFavorite(follower: favorite)
+					self.presentGFAlertOnMainThread(title: "Success!", message: "You have successfully favorited this user.", buttonTitle: "Hooray!")
+				} catch {
+					self.presentGFAlertOnMainThread(title: "Something went wrong", message: error.localizedDescription, buttonTitle: "OK")
+				}
 			}
 		}
     }
