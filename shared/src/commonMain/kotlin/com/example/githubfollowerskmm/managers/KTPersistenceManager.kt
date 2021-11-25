@@ -17,6 +17,6 @@ class KTPersistenceManager(databaseDriverFactory: DatabaseDriverFactory) {
     }
 
     fun deleteFavorite(follower: Follower) {
-        databaseQueries.deleteFolloer(follower.login)
+        databaseQueries.deleteFollower(follower.login)
     }
 }
