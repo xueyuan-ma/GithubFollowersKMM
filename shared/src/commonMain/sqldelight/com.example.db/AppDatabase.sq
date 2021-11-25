@@ -1,0 +1,13 @@
+CREATE TABLE DBFollower (
+    login TEXT NOT NULL PRIMARY KEY,
+    avatarUrl TEXT NOT NULL
+);
+
+selectAllFollowers:
+SELECT * FROM DBFollower;
+
+deleteFollower:
+DELETE FROM DBFollower WHERE login = ?;
+
+insertFollower:
+INSERT INTO DBFollower(login, avatarUrl) VALUES (?, ?);
