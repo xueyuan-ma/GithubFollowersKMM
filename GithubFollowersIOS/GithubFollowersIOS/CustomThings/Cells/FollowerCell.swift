@@ -8,6 +8,7 @@
 
 import UIKit
 import shared
+import Kingfisher
 
 class FollowerCell: UICollectionViewCell {
     static let reuseID = "FollowerCell"
@@ -26,11 +27,8 @@ class FollowerCell: UICollectionViewCell {
     
     func set(follower: Follower) {
         usernameLabel.text = follower.login
-        NetworkManager.shared.downloadImage(from: follower.avatarUrl) { [unowned self] (image) in
-            DispatchQueue.main.async {
-                self.avatarImageView.image = image
-            }
-        }
+		let url = URL(string: follower.avatarUrl)
+		avatarImageView.kf.setImage(with: url)
     }
     
     private func configure() {

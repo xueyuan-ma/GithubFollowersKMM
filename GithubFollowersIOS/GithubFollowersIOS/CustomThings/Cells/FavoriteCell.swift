@@ -8,6 +8,7 @@
 
 import UIKit
 import shared
+import Kingfisher
 
 class FavoriteCell: UITableViewCell {
     static let reuseID = "FavoriteCell"
@@ -26,11 +27,8 @@ class FavoriteCell: UITableViewCell {
     
     func set(favorite: Follower) {
         usernameLabel.text = favorite.login
-        NetworkManager.shared.downloadImage(from: favorite.avatarUrl) { [unowned self] (image) in
-            DispatchQueue.main.async {
-                self.avatarImageView.image = image
-            }
-        }
+		let url = URL(string: favorite.avatarUrl)
+		avatarImageView.kf.setImage(with: url)
     }
     
     private func configure() {

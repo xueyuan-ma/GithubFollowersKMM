@@ -8,6 +8,7 @@
 
 import UIKit
 import shared
+import Kingfisher
 
 class GFUserInfoHeaderVC: UIViewController {
     let avatarImageView = GFAvatarImageView(frame: .zero)
@@ -49,11 +50,8 @@ class GFUserInfoHeaderVC: UIViewController {
     }
     
     func downloadAvatarImage() {
-        NetworkManager.shared.downloadImage(from: user.avatarUrl) { [unowned self] (image) in
-            DispatchQueue.main.async {
-                self.avatarImageView.image = image
-            }
-        }
+		let url = URL(string: user.avatarUrl)
+		avatarImageView.kf.setImage(with: url)
     }
     
     func layoutUI() {
