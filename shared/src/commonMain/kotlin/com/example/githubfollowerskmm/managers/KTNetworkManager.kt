@@ -19,16 +19,11 @@ class KTNetworkManager {
                 coerceInputValues = true
             })
         }
-
-        HttpResponseValidator {
-            handleResponseException { exception ->
-                throw CancellationException(exception.message, exception.cause)
-            }
-        }
     }
 
     private val baseUrl = "https://api.github.com/users/"
 
+    @Throws(Exception::class)
     suspend fun getFollowers(username: String, page: Int): List<Follower> {
         return client.get("$baseUrl$username/followers") {
             parameter("per_page", 100)
@@ -36,6 +31,7 @@ class KTNetworkManager {
         }
     }
 
+    @Throws(Exception::class)
     suspend fun getUserInfo(username: String): User {
         return client.get("$baseUrl$username")
     }

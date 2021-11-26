@@ -12,10 +12,12 @@ class KTPersistenceManager(databaseDriverFactory: DatabaseDriverFactory) {
         return databaseQueries.selectAllFollowers { login, avatarUrl -> Follower(login, avatarUrl) }.executeAsList()
     }
 
+    @Throws(Exception::class)
     fun insertFavorite(follower: Follower) {
         databaseQueries.insertFollower(follower.login, follower.avatarUrl)
     }
 
+    @Throws(Exception::class)
     fun deleteFavorite(follower: Follower) {
         databaseQueries.deleteFollower(follower.login)
     }
