@@ -3,13 +3,9 @@ package com.example.githubfollowerskmm.managers
 import com.example.githubfollowerskmm.models.Follower
 import com.example.githubfollowerskmm.models.User
 import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.features.*
-import io.ktor.client.request.*
 import io.ktor.client.features.json.*
 import io.ktor.client.features.json.serializer.*
-import io.ktor.client.statement.*
-import kotlinx.coroutines.CancellationException
+import io.ktor.client.request.*
 
 class KTNetworkManager {
     private val client = HttpClient() {
