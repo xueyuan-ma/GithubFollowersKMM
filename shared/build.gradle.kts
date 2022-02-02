@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
     kotlin("multiplatform")
-    kotlin("plugin.serialization") version "1.5.31"
+    kotlin("plugin.serialization") version "1.6.10"
     id("com.android.library")
     id("com.squareup.sqldelight")
 }
@@ -26,10 +26,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("com.squareup.sqldelight:runtime:1.5.2")
-                implementation("io.ktor:ktor-client-core:1.6.5")
-                implementation("io.ktor:ktor-client-serialization:1.6.5")
-                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
+                implementation("com.squareup.sqldelight:runtime:1.5.3")
+                implementation("io.ktor:ktor-client-core:1.6.7")
+                implementation("io.ktor:ktor-client-serialization:1.6.7")
+                implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
             }
         }
         val commonTest by getting {
@@ -40,8 +40,8 @@ kotlin {
         }
         val androidMain by getting {
             dependencies {
-                implementation("com.squareup.sqldelight:android-driver:1.5.2")
-                implementation("io.ktor:ktor-client-android:1.6.5")
+                implementation("com.squareup.sqldelight:android-driver:1.5.3")
+                implementation("io.ktor:ktor-client-android:1.6.7")
             }
         }
         val androidTest by getting {
@@ -52,8 +52,8 @@ kotlin {
         }
         val iosMain by getting {
             dependencies {
-                implementation("com.squareup.sqldelight:native-driver:1.5.2")
-                implementation("io.ktor:ktor-client-ios:1.6.5")
+                implementation("com.squareup.sqldelight:native-driver:1.5.3")
+                implementation("io.ktor:ktor-client-ios:1.6.7")
             }
         }
         val iosTest by getting
