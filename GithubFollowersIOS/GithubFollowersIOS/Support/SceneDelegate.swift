@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import shared
 
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -21,7 +20,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
         configureNavigationBar()
-		print(Greeting().greeting())
         
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
