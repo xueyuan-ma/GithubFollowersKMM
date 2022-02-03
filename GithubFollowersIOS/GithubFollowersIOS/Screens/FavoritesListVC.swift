@@ -12,16 +12,18 @@ import shared
 class FavoritesListVC: GFDataLoadingVC {
     let tableView = UITableView()
     var favorites: [Follower] = []
+	var presenter: FavoritesListPresenter<FavoritesListViewInterface>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureViewController()
         configureTableView()
+		presenter = FavoritesListPresenter(view: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        getFavorites()
+		presenter?.getFavorites()
     }
     
     func configureViewController() {
@@ -38,17 +40,6 @@ class FavoritesListVC: GFDataLoadingVC {
         tableView.dataSource = self
         tableView.removeExcessCells()
         tableView.register(FavoriteCell.self, forCellReuseIdentifier: FavoriteCell.reuseID)
-    }
-    
-    func getFavorites() {
-		let favorites = Manager.persistenceManager.retrieveFavorites()
-		if favorites.isEmpty {
-			showEmptyStateView(with: "No Favorites?\nAdd one on the follower screen.", in: self.view)
-		} else {
-			self.favorites = favorites
-			tableView.reloadData()
-			view.bringSubviewToFront(self.tableView)
-		}
     }
 }
 
@@ -78,4 +69,19 @@ extension FavoritesListVC: UITableViewDataSource, UITableViewDelegate {
 		favorites.remove(at: indexPath.row)
 		tableView.deleteRows(at: [indexPath], with: .left)
     }
+}
+
+
+extension FavoritesListVC: FavoritesListViewInterface {
+	func showEmptyState() {
+		showEmptyStateView(with: "No Favorites?\nAdd one on the follower screen.", in: self.view)
+	}
+
+	func showFavorites(favorites: [Follower]) {
+		self.favorites = favorites
+		tableView.reloadData()
+		view.bringSubviewToFront(self.tableView)
+	}
+
+
 }
